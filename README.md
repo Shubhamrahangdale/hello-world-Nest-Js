@@ -63,18 +63,17 @@
 
 1. Create a GitHub Actions Workflow:
    - Inside your GitHub repository, create a `.github/workflows` directory if it doesn't exist.
-   - Create a YAML file (e.g., `ci-cd.yml`) for your GitHub Actions workflow.
+   - Create a YAML file (e.g., `main.yml`) for your GitHub Actions workflow.
 
 2. Define Workflow Triggers:
-   - Specify when the workflow should run, for example, on pushes to the `main` branch:
-     yaml
-     name: CI/CD for NestJS
+   - Specify when the workflow should run, for example, on pushes to the `master` branch:
+name: CI/CD for NestJS
 
-     on:
-       push:
-         branches:
-           - main
-     
+on:
+  push:
+    branches:
+      - master  # Trigger on pushes to master branch
+
 
 3. Set Up Workflow Jobs:
    - Define jobs to be executed in your workflow:
@@ -104,25 +103,46 @@
 
 4. Add Deployment Step Using SSH Action:
    - Use an SSH action (e.g., `appleboy/ssh-action`) to connect to your EC2 instance and deploy your NestJS application:
-     yaml
-     jobs:
-       build:
-         runs-on: ubuntu-latest
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-         steps:
-            Previous steps as defined earlier...
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-           - name: Deploy to EC2
-             uses: appleboy/ssh-action@master
-             with:
-               host: ${{ secrets.EC2_HOST }}
-               username: ${{ secrets.EC2_USERNAME }}
-               key: ${{ secrets.SSH_PRIVATE_KEY }}
-               script: |
-                 cd /path/to/your-nestjs-helloworld
-                 git pull origin main
-                 npm install
-                 npm run build
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Run tests
+        run: npm test
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/ubuntu/nestjs-hello-world  
+            # Update to the correct path on your EC2 instance
+            if [ ! -d .git ]; then
+              git init
+              git remote add origin https://github.com/Deepak2202-del/nestjs-hello-world.git
+            fi
+            git fetch origin
+            git reset --hard origin/master  # Use the correct branch name
+            npm install
+            npm run build
+            pm2 restart all || pm2 start dist/main.js --name "nest-app"
 
 6. Commit and Push Your Workflow:
    - Save your changes to the YAML file and commit them to your `main` branch.
