@@ -37,11 +37,11 @@
      
    - Clone your NestJS project from your Git repository (replace `<your_repo_url>` with your actual repository URL):
      bash
-     git clone <your_repo_url>
+     git clone https://github.com/Deepak2202-del/nestjs-hello-world.git
      
    - Navigate into your NestJS project directory:
      bash
-     cd your-nestjs-helloworld
+     cd /nestjs-hello-world
      
    - Install dependencies and build your project:
      bash
@@ -51,10 +51,7 @@
    - Start your NestJS application using PM2:
      bash
      npm run start
-     
-
-
-   - Open your web browser and navigate to your EC2 instance's public DNS or IP followed by the appropriate port (default is 3000 for NestJS).
+ - Open your web browser and navigate to your EC2 instance's public DNS or IP followed by the appropriate port (default is 3000 for NestJS).
 
  2. Implementing CI/CD Using GitHub Actions for NestJS
 
