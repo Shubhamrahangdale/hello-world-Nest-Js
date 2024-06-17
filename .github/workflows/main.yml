@@ -19,26 +19,33 @@ jobs:
           node-version: '14'
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd $GITHUB_WORKSPACE
+          npm install
 
       - name: Build
-        run: npm run build
+        run: |
+          cd $GITHUB_WORKSPACE
+          npm run build
 
       - name: Run tests
-        run: npm test
+        run: |
+          cd $GITHUB_WORKSPACE
+          npm test  # Adjust based on your test runner command
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}  # Use the SSH_PRIVATE_KEY secret
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /path/to/your-nestjs-helloworld
+            cd $GITHUB_WORKSPACE
             git pull origin main
             npm install
             npm run build
-            pm2 restart all  # Adjust based on your process manager (e.g., PM2)
+            npm install -g pm2  # Install PM2 globally if not installed
+            pm2 restart all  # Adjust based on your process management needs
 
           # Optional inputs for advanced configurations
           # timeout: 30s  # Adjust timeout if necessary
