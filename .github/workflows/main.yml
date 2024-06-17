@@ -3,7 +3,7 @@
 on:
   push:
     branches:
-      - master  # Trigger on pushes to main branch
+      - master  # Trigger on pushes to masterbranch
 
 jobs:
   build:
