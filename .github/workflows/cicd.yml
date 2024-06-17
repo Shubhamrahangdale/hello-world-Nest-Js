@@ -3,7 +3,7 @@ name: CI/CD for NestJS
 on:
   push:
     branches:
-      - master  # Trigger on pushes to master branch
+      - main  
 
 jobs:
   build:
