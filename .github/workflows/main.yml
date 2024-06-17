@@ -3,7 +3,7 @@ name: CI/CD for NestJS
 on:
   push:
     branches:
-      - master  # Trigger on pushes to master branch
+      - main  # Trigger on pushes to main branch
 
 jobs:
   build:
@@ -32,15 +32,15 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
-
-          - name: Set up SSH for GitHub Actions
-          uses: webfactory/ssh-agent@v0.5.3
-          with:
-            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-            key: ${{ secrets.EC2_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}  # Use the SSH_PRIVATE_KEY secret
           script: |
             cd /path/to/your-nestjs-helloworld
             git pull origin main
             npm install
             npm run build
-            pm2 restart all  # If using PM2 for process management
+            pm2 restart all  # Adjust based on your process manager (e.g., PM2)
+
+          # Optional inputs for advanced configurations
+          # timeout: 30s  # Adjust timeout if necessary
+          # command_timeout: 10m  # Adjust command execution timeout if necessary
+
