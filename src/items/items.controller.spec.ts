@@ -18,5 +18,4 @@ describe('Items Controller', () => {
     expect(controller).toBeDefined();
   });
 
-  // Add more test cases as needed
 });
