@@ -1,86 +1,132 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+ 1. Manual Deployment of NestJS HelloWorld on EC2
 
-[travis-image]: https://api.travis-ci.org/nestjs/nest.svg?branch=master
-[travis-url]: https://travis-ci.org/nestjs/nest
-[linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
-[linux-url]: https://travis-ci.org/nestjs/nest
-  
-  <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications, heavily inspired by <a href="https://angular.io" target="blank">Angular</a>.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/dm/@nestjs/core.svg" alt="NPM Downloads" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://api.travis-ci.org/nestjs/nest.svg?branch=master" alt="Travis" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://img.shields.io/travis/nestjs/nest/master.svg?label=linux" alt="Linux" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#5" alt="Coverage" /></a>
-<a href="https://gitter.im/nestjs/nestjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge"><img src="https://badges.gitter.im/nestjs/nestjs.svg" alt="Gitter" /></a>
-<a href="https://opencollective.com/nest#backer"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec"><img src="https://img.shields.io/badge/Donate-PayPal-dc3d53.svg"/></a>
-  <a href="https://twitter.com/nestframework"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+ Prerequisites:
+- An AWS EC2 instance running a Linux-based OS (e.g., Ubuntu).
+- SSH access to the EC2 instance configured with a private key.
+- Basic knowledge of Linux shell commands.
 
-## Description
+ Steps:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+1. Prepare Your EC2 Instance:
+   - Launch an EC2 instance on AWS. Make note of the public DNS (or IP address) and SSH key pair used for access.
 
-## Installation
+2. Connect to Your EC2 Instance:
+   - Open your terminal (or use an SSH client like PuTTY on Windows).
+   - Use the following command to connect to your EC2 instance:
+     bash
+     ssh -i "your_private_key.pem" ubuntu@ec2-your-public-dns.compute-1.amazonaws.com
+     
+   - Replace `your_private_key.pem` with the path to your private key and `ec2-your-public-dns.compute-1.amazonaws.com` with your EC2 instance's public DNS.
 
-```bash
-$ npm install
-```
+3. Install Prerequisites on EC2:
+   - Update the package list:
+     bash
+     sudo apt update
+     
+   - Install Node.js and npm (if not already installed):
+     bash
+     sudo apt install nodejs npm
+     
+     sudo npm install 
+     
 
-## Running the app
+4. Clone and Deploy Your NestJS Application:
+   - Navigate to a directory where you want to deploy your application (e.g., `/home/ubuntu`):
+     bash
+     cd /home/ubuntu
+     
+   - Clone your NestJS project from your Git repository (replace `<your_repo_url>` with your actual repository URL):
+     bash
+     git clone <your_repo_url>
+     
+   - Navigate into your NestJS project directory:
+     bash
+     cd your-nestjs-helloworld
+     
+   - Install dependencies and build your project:
+     bash
+     npm install
+     npm run build
+     
+   - Start your NestJS application using PM2:
+     bash
+     npm run start
+     
 
-```bash
-# development
-$ npm run start
 
-# watch mode
-$ npm run start:dev
+   - Open your web browser and navigate to your EC2 instance's public DNS or IP followed by the appropriate port (default is 3000 for NestJS).
 
-# production mode
-$ npm run start:prod
-```
+ 2. Implementing CI/CD Using GitHub Actions for NestJS
 
-## Test
+ Prerequisites:
+- GitHub repository containing your NestJS project.
+- Basic understanding of GitHub Actions.
 
-```bash
-# unit tests
-$ npm run test
+ Steps:
 
-# e2e tests
-$ npm run test:e2e
+1. Create a GitHub Actions Workflow:
+   - Inside your GitHub repository, create a `.github/workflows` directory if it doesn't exist.
+   - Create a YAML file (e.g., `ci-cd.yml`) for your GitHub Actions workflow.
 
-# test coverage
-$ npm run test:cov
-```
+2. Define Workflow Triggers:
+   - Specify when the workflow should run, for example, on pushes to the `main` branch:
+     yaml
+     name: CI/CD for NestJS
 
-## Whats in the Demo
+     on:
+       push:
+         branches:
+           - main
+     
 
-```
-GET http://localhost:3000/
-GET http://localhost:3000/ping
-GET http://localhost:3000/docs -> Redirection example
+3. Set Up Workflow Jobs:
+   - Define jobs to be executed in your workflow:
+     yaml
+     jobs:
+       build:
+         runs-on: ubuntu-latest
 
-GET http://localhost:3000/items
-POST http://localhost:3000/items
-```
+         steps:
+           - name: Checkout code
+             uses: actions/checkout@v2
 
-## Support
+           - name: Set up Node.js
+             uses: actions/setup-node@v2
+             with:
+               node-version: '14'
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+           - name: Install dependencies
+             run: npm install
 
-## Stay in touch
+           - name: Build
+             run: npm run build
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+           - name: Run tests
+             run: npm test
+     
 
-## License
+4. Add Deployment Step Using SSH Action:
+   - Use an SSH action (e.g., `appleboy/ssh-action`) to connect to your EC2 instance and deploy your NestJS application:
+     yaml
+     jobs:
+       build:
+         runs-on: ubuntu-latest
 
-  Nest is [MIT licensed](LICENSE).
+         steps:
+            Previous steps as defined earlier...
+
+           - name: Deploy to EC2
+             uses: appleboy/ssh-action@master
+             with:
+               host: ${{ secrets.EC2_HOST }}
+               username: ${{ secrets.EC2_USERNAME }}
+               key: ${{ secrets.SSH_PRIVATE_KEY }}
+               script: |
+                 cd /path/to/your-nestjs-helloworld
+                 git pull origin main
+                 npm install
+                 npm run build
+
+6. Commit and Push Your Workflow:
+   - Save your changes to the YAML file and commit them to your `main` branch.
+   - GitHub Actions will automatically trigger the workflow on pushes to `main`, executing the defined steps.
