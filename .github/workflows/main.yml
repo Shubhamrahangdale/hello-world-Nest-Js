@@ -3,7 +3,7 @@ name: CI/CD for NestJS
 on:
   push:
     branches:
-      - main  # Trigger on pushes to main branch
+      - master  # Trigger on pushes to main branch
 
 jobs:
   build:
@@ -43,4 +43,3 @@ jobs:
           # Optional inputs for advanced configurations
           # timeout: 30s  # Adjust timeout if necessary
           # command_timeout: 10m  # Adjust command execution timeout if necessary
-
