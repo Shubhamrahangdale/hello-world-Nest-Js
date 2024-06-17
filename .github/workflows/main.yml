@@ -42,6 +42,7 @@ jobs:
             fi
             git fetch origin
             git reset --hard origin/master  # Use the correct branch name
+            
             npm install
             npm run build
             pm2 restart all || pm2 start dist/main.js --name "nest-app"
