@@ -103,6 +103,14 @@ on:
 
 4. Add Deployment Step Using SSH Action:
    - Use an SSH action (e.g., `appleboy/ssh-action`) to connect to your EC2 instance and deploy your NestJS application:
+
+    name: CI/CD for NestJS
+
+on:
+  push:
+    branches:
+      - master  # Trigger on pushes to master branch
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -143,7 +151,6 @@ jobs:
             npm install
             npm run build
             pm2 restart all || pm2 start dist/main.js --name "nest-app"
-
 6. Commit and Push Your Workflow:
    - Save your changes to the YAML file and commit them to your `main` branch.
    - GitHub Actions will automatically trigger the workflow on pushes to `main`, executing the defined steps.
