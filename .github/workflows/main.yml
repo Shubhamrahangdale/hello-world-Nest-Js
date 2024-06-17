@@ -1,4 +1,4 @@
-name: CI/CD for NestJS
+ name: CI/CD for NestJS
 
 on:
   push:
@@ -46,7 +46,6 @@ jobs:
             npm run build
             npm install pm2  # Install PM2 locally if needed
             npx pm2 restart all  # Use npx to run PM2
-
           # Optional inputs for advanced configurations
           # timeout: 30s  # Adjust timeout if necessary
           # command_timeout: 10m  # Adjust command execution timeout if necessary
