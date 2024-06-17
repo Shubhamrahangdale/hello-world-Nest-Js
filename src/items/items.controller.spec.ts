@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ItemsController } from './items.controller';
+import { ItemsService } from './items.service'; // Import ItemsService
 
 describe('Items Controller', () => {
   let controller: ItemsController;
@@ -7,6 +8,7 @@ describe('Items Controller', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ItemsController],
+      providers: [ItemsService], // Provide ItemsService here
     }).compile();
 
     controller = module.get<ItemsController>(ItemsController);
@@ -15,4 +17,6 @@ describe('Items Controller', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
+
+  // Add more test cases as needed
 });
