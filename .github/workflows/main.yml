@@ -32,7 +32,12 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_PRIVATE_KEY }}
+
+          - name: Set up SSH for GitHub Actions
+          uses: webfactory/ssh-agent@v0.5.3
+          with:
+            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+            key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
             cd /path/to/your-nestjs-helloworld
             git pull origin main
