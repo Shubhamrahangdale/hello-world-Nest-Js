@@ -63,5 +63,10 @@
     },
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+    {
+  "scripts": {
+    "build": "nest build"
+    }
   }
+ }
 }
