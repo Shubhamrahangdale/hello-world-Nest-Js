@@ -19,19 +19,13 @@ jobs:
           node-version: '14'
 
       - name: Install dependencies
-        run: |
-          cd $GITHUB_WORKSPACE
-          npm install
+        run: npm install
 
       - name: Build
-        run: |
-          cd $GITHUB_WORKSPACE
-          npm run build
+        run: npm run build
 
       - name: Run tests
-        run: |
-          cd $GITHUB_WORKSPACE
-          npm test  # Adjust based on your test runner command
+        run: npm test
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
@@ -40,9 +34,14 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd $GITHUB_WORKSPACE
-            git pull origin main
+            cd /home/ubuntu/nestjs-hello-world  
+          # Replace with the correct path on your EC2 instance
+            if [ ! -d .git ]; then
+              git init
+              git remote add origin https://github.com/Deepak2202-del/nestjs-hello-world.git
+            fi
+            git fetch
+            git reset --hard origin/master  # Use 'master' as the branch if that's what you have
             npm install
             npm run build
-            npm install pm2  # Install PM2 locally if needed
-            npx pm2 restart all  # Use npx to run PM2
+            pm2 restart all || pm2 start dist/main.js --name "nest-app"
