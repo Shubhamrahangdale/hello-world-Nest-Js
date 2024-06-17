@@ -34,7 +34,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /home/ubuntu/nestjs-hello-world  
+            cd /home/ubuntu/nestjs-hello-world 
           # Replace with the correct path on your EC2 instance
             if [ ! -d .git ]; then
               git init
