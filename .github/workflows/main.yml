@@ -28,15 +28,6 @@ jobs:
           cd $GITHUB_WORKSPACE
           npm run build
 
-      - name: Check npm version
-        run: npm --version
-
-      - name: Check npm cache
-        run: npm cache verify
-
-      - name: Display npm config
-        run: npm config list
-
       - name: Run tests
         run: |
           cd $GITHUB_WORKSPACE
@@ -54,7 +45,4 @@ jobs:
             npm install
             npm run build
             npm install pm2  # Install PM2 locally if needed
-            npx restart all  # Use npx to run PM2
-          # Optional inputs for advanced configurations
-          # timeout: 30s  # Adjust timeout if necessary
-          # command_timeout: 10m  # Adjust command execution timeout if necessary
+            npx pm2 restart all  # Use npx to run PM2
