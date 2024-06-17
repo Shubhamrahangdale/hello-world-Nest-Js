@@ -38,7 +38,7 @@ jobs:
             # Update to the correct path on your EC2 instance
             if [ ! -d .git ]; then
               git init
-              git remote add origin 
+              git remote add origin https://github.com/Shubhamrahangdale/hello-world-Nest-Js.git
             fi
             git fetch origin
             git reset --hard origin/main  
