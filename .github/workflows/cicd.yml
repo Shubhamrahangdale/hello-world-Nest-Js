@@ -32,12 +32,18 @@ jobs:
         run: npm test
 
       - name: Deploy to EC2
-        env:
+        uses: appleboy/ssh-action@master
+        with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER}}
           key: ${{ secrets.EC2_KEY }}
-          run: |
-           echo "${{ secrets.EC2_KEY }}" > key.pem
-           chmod 400 key.pem   
+          script: |
+            cd /home/ubuntu/hello-world-Nest-Js
+            if [ ! -d .git ]; then
+              git init
+              git remote add origin https://github.com/Shubhamrahangdale/hello-world-Nest-Js.git
+            fi
+            git fetch origin
+            git reset --hard origin/main
           
 
