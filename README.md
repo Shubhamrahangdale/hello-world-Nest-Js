@@ -140,17 +140,9 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /home/ubuntu/nestjs-hello-world  
-            # Update to the correct path on your EC2 instance
-            if [ ! -d .git ]; then
-              git init
-              git remote add origin https://github.com/Deepak2202-del/nestjs-hello-world.git
-            fi
-            git fetch origin
-            git reset --hard origin/master  # Use the correct branch name
+            cd /home/ubuntu/hello-world-Nest-Js
             npm install
             npm run build
-            pm2 restart all || pm2 start dist/main.js --name "nest-app"
 6. Commit and Push Your Workflow:
    - Save your changes to the YAML file and commit them to your `main` branch.
    - GitHub Actions will automatically trigger the workflow on pushes to `main`, executing the defined steps.
