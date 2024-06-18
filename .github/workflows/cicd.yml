@@ -31,9 +31,8 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd /home/ubuntu/hello-world-Nest-Js 
-            npm install
-            npm run build
+          username: ${{ secrets.EC2_USER}}
+          key: ${{ secrets.EC2_KEY }}
+          run: |
+           ssh -o StrictHostKeyChecking=no -i $EC2_KEY $EC2_USER@$EC2_HOST cd /home/ec2-user/hello-world-Nest-Js && git pull && npm install && pm2 restart hello-world || pm2 start dist/main.js --name "hello-world"
+
