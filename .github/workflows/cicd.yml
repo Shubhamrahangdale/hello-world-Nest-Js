@@ -32,10 +32,14 @@ jobs:
         run: npm test
 
       - name: Deploy to EC2
-        uses: appleboy/ssh-action@master
-        with:
+        # uses: appleboy/ssh-action@master
+        # with:
+        env:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER}}
           key: ${{ secrets.EC2_KEY }}
+          run: |
+           echo "${{ secrets.EC2_KEY }}" > key.pem
+           chmod 400 key.pem
           
 
