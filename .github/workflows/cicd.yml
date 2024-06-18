@@ -31,6 +31,13 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Create PEM file in home directory and set permissions
+        env:
+          EC2_KEY: ${{ secrets.EC2_KEY }}
+        run: |
+          echo "${{ secrets.EC2_KEY }}" > $HOME/ec2-key.pem
+          chmod 400 $HOME/ec2-key.pem
+
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
