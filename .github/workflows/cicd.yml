@@ -1,7 +1,7 @@
 name: CI/CD for NestJS
 
 on: 
-  push: 
+  push:    
     branches:    
       - main
     
