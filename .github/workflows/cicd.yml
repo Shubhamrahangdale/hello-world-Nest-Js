@@ -37,8 +37,5 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER}}
           key: ${{ secrets.EC2_KEY }}
-          run: |
-           echo "$EC2_KEY" > key.pem
-           chmod 400 key.pem
-           ssh -o StrictHostKeyChecking=no -i $EC2_KEY $EC2_USER@$EC2_HOST cd /home/ec2-user/hello-world-Nest-Js && git pull && npm install && pm2 restart hello-world || pm2 start dist/main.js --name "hello-world"
+          
 
